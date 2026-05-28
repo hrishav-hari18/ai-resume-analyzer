@@ -31,9 +31,24 @@ from services.file_parser import extract_resume_text
 from services.resume_feedback import generate_resume_feedback
 
 
+# ================= APP =================
+
 app = Flask(__name__)
 
-CORS(app)
+
+# ================= CORS FIX =================
+
+CORS(
+    app,
+    resources={
+        r"/*": {
+            "origins": "*"
+        }
+    }
+)
+
+
+# ================= CONFIG =================
 
 app.config[
     "SQLALCHEMY_DATABASE_URI"
@@ -42,7 +57,8 @@ app.config[
 app.config[
     "JWT_SECRET_KEY"
 ] = os.environ.get(
-    "JWT_SECRET_KEY"
+    "JWT_SECRET_KEY",
+    "mysecret"
 )
 
 
@@ -58,9 +74,10 @@ with app.app_context():
     db.create_all()
 
 
-# ================= ROLES =================
+# ================= LOAD ROLES =================
 
 with open("data/job_roles.json") as f:
+
     roles_data = json.load(f)
 
 
@@ -97,10 +114,14 @@ def register():
         (User.email == data["email"])
     ).first()
 
+
     if existing_user:
 
         return jsonify({
-            "error": "User already exists"
+
+            "error":
+            "Username or Email already registered"
+
         }), 400
 
 
@@ -109,7 +130,10 @@ def register():
     ]:
 
         return jsonify({
-            "error": "Passwords do not match"
+
+            "error":
+            "Passwords do not match"
+
         }), 400
 
 
@@ -136,7 +160,10 @@ def register():
 
 
     return jsonify({
-        "message": "Registration successful"
+
+        "message":
+        "Registration successful"
+
     })
 
 
@@ -155,7 +182,10 @@ def login():
     if not user:
 
         return jsonify({
-            "error": "User not found"
+
+            "error":
+            "User not found"
+
         }), 400
 
 
@@ -165,7 +195,10 @@ def login():
     ):
 
         return jsonify({
-            "error": "Wrong password"
+
+            "error":
+            "Wrong password"
+
         }), 400
 
 
@@ -285,20 +318,29 @@ def analyze():
 
     username = get_jwt_identity()
 
-    role = request.form.get("role", "")
+    role = request.form.get(
+        "role",
+        ""
+    )
 
 
     if role not in roles_data:
 
         return jsonify({
-            "error": "Invalid role"
+
+            "error":
+            "Invalid role"
+
         }), 400
 
 
     if "resume" not in request.files:
 
         return jsonify({
-            "error": "Resume file missing"
+
+            "error":
+            "Resume file missing"
+
         }), 400
 
 
@@ -369,12 +411,20 @@ def start():
 
     data = request.json or {}
 
-    role = data.get("role", "")
+    role = data.get(
+        "role",
+        ""
+    )
 
-    duration = data.get("duration", 10)
+    duration = data.get(
+        "duration",
+        10
+    )
 
 
-    session = start_session(duration)
+    session = start_session(
+        duration
+    )
 
     session["role"] = role
 
@@ -391,11 +441,13 @@ def start():
 
 
     return jsonify({
+
         "question": q
+
     })
 
 
-# ================= NEXT =================
+# ================= NEXT QUESTION =================
 
 @app.route("/next", methods=["POST"])
 @jwt_required()
@@ -414,7 +466,10 @@ def next_q():
     if username not in sessions:
 
         return jsonify({
-            "error": "Session not found"
+
+            "error":
+            "Session not found"
+
         }), 400
 
 
@@ -427,7 +482,8 @@ def next_q():
 
             "end": True,
 
-            "result": end_session(session)
+            "result":
+            end_session(session)
 
         })
 
@@ -440,7 +496,9 @@ def next_q():
     eval_text = evaluate_answer(
 
         last_q,
+
         answer,
+
         session["role"]
     )
 
@@ -456,12 +514,15 @@ def next_q():
 
 
     session["history"].append(
+
         f"Q:{last_q} A:{answer}"
     )
 
 
     q = generate_question(
+
         session["role"],
+
         session["history"]
     )
 
@@ -480,7 +541,7 @@ def next_q():
     })
 
 
-# ================= END =================
+# ================= END INTERVIEW =================
 
 @app.route("/end", methods=["POST"])
 @jwt_required()
@@ -492,7 +553,10 @@ def end():
     if username not in sessions:
 
         return jsonify({
-            "error": "Session not found"
+
+            "error":
+            "Session not found"
+
         }), 400
 
 
@@ -533,6 +597,8 @@ if __name__ == "__main__":
     )
 
     app.run(
+
         host="0.0.0.0",
+
         port=port
     )
