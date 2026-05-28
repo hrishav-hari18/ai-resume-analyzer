@@ -1,0 +1,17 @@
+Flask
+flask-cors
+Flask-Bcrypt
+Flask-JWT-Extended
+Flask-SQLAlchemy
+gunicorn
+requests
+scikit-learn
+sentence-transformers
+numpy
+scipy
+PyJWT
+torch
+transformers
+python-docx
+PyPDF2
+sentence-transformers

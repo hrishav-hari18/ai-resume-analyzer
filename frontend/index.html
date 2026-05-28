@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>AI Resume Analyzer</title>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+  <!-- ================= AUTH ================= -->
+
+  <div class="auth-container" id="authContainer">
+
+    <div class="auth-box">
+
+      <h1>AI Resume Analyzer</h1>
+
+
+      <!-- ================= LOGIN ================= -->
+
+      <div id="loginSection">
+
+        <h2>Login</h2>
+
+        <input
+          type="text"
+          id="loginUsername"
+          placeholder="Username"
+        >
+
+        <div class="password-box">
+
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Password"
+          >
+
+          <button
+            class="show-btn"
+            onclick="togglePassword('loginPassword')"
+          >
+            Show
+          </button>
+
+        </div>
+
+        <button onclick="login()">
+          Login
+        </button>
+
+        <p>
+          Don't have account?
+
+          <span onclick="showRegister()">
+            Register
+          </span>
+        </p>
+
+      </div>
+
+
+      <!-- ================= REGISTER ================= -->
+
+      <div
+        id="registerSection"
+        style="display:none"
+      >
+
+        <h2>Register</h2>
+
+        <input
+          type="text"
+          id="fullName"
+          placeholder="Full Name"
+        >
+
+        <input
+          type="text"
+          id="registerUsername"
+          placeholder="Username"
+        >
+
+        <input
+          type="email"
+          id="registerEmail"
+          placeholder="Email"
+        >
+
+        <div class="password-box">
+
+          <input
+            type="password"
+            id="registerPassword"
+            placeholder="Password"
+          >
+
+          <button
+            class="show-btn"
+            onclick="togglePassword('registerPassword')"
+          >
+            Show
+          </button>
+
+        </div>
+
+        <div class="password-box">
+
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+          >
+
+          <button
+            class="show-btn"
+            onclick="togglePassword('confirmPassword')"
+          >
+            Show
+          </button>
+
+        </div>
+
+        <button onclick="register()">
+          Register
+        </button>
+
+        <p>
+          Already have account?
+
+          <span onclick="showLogin()">
+            Login
+          </span>
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= MAIN APP ================= -->
+
+  <div
+    class="container"
+    id="mainApp"
+    style="display:none"
+  >
+
+    <h1 id="welcomeText"></h1>
+
+    <button onclick="loadDashboard()">
+      Dashboard
+    </button>
+
+    <button onclick="logout()">
+      Logout
+    </button>
+
+    <hr>
+
+
+    <!-- ================= ROLE ================= -->
+
+    <select id="role"></select>
+
+
+    <!-- ================= RESUME ANALYZER ================= -->
+
+    <h2>Resume Analyzer</h2>
+
+    <div class="upload-box">
+
+      <input
+        type="file"
+        id="resumeFile"
+        accept=".pdf,.docx"
+      >
+
+    </div>
+
+    <button onclick="analyzeResume()">
+      Analyze Resume
+    </button>
+
+    <div id="analysisResult"></div>
+
+    <hr>
+
+
+    <!-- ================= INTERVIEW ================= -->
+
+    <h2>AI Interview</h2>
+
+    <button onclick="startInterview()">
+      Start Interview
+    </button>
+
+    <button onclick="endInterview()">
+      End Interview
+    </button>
+
+    <div id="chat"></div>
+
+    <input
+      type="text"
+      id="answer"
+      placeholder="Type answer"
+    >
+
+    <button onclick="sendAnswer()">
+      Submit
+    </button>
+
+    <hr>
+
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <h2>User Dashboard</h2>
+
+    <div id="dashboard"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
