@@ -1,4 +1,4 @@
-const API = "https://YOUR-RENDER-BACKEND.onrender.com";
+const API = "https://ai-resume-backend.onrender.com";
 
 let token = "";
 
