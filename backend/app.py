@@ -36,7 +36,7 @@ from services.resume_feedback import generate_resume_feedback
 app = Flask(__name__)
 
 
-# ================= CORS FIX =================
+# ================= CORS =================
 
 CORS(
     app,
@@ -52,7 +52,9 @@ CORS(
 
 app.config[
     "SQLALCHEMY_DATABASE_URI"
-] = "sqlite:///app.db"
+] = os.environ.get(
+    "DATABASE_URL"
+)
 
 app.config[
     "JWT_SECRET_KEY"
